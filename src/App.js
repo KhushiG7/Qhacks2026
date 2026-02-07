@@ -156,7 +156,29 @@ function Login({ onLogin }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
+        {/* Forgot Password - directly below password input */}
+        <div className="forgot-password-wrapper">
+          <button
+            type="button"
+            className="link-btn forgot-btn"
+            onClick={() => alert("Redirect to Forgot Password page")}
+          >
+            Forgot Password?
+          </button>
+        </div>
+
+        {/* Yellow Login Button */}
         <button type="submit" className="start-btn">Login</button>
+
+        {/* Sign Up Button - same width/style as Login */}
+        <button
+          type="button"
+          className="start-btn signup-btn"
+          onClick={() => alert("Redirect to Sign Up page")}
+        >
+          Sign Up
+        </button>
       </form>
     </div>
   );
