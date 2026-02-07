@@ -1,4 +1,5 @@
 from elevenlabs.client import ElevenLabs
+from dotenv import load_dotenv
 import os
 
 actions = {
@@ -20,9 +21,12 @@ tts_text = (
     f"Your Golden Aura is strongest in {strongest_category_text}."
 )
 
-client = ElevenLabs(
-    api_key=os.getenv("ELEVENLABS_API_KEY")
-)
+load_dotenv()
+
+api_key = os.getenv("ELEVENLABS_API_KEY")
+if not api_key:
+    raise RuntimeError("ELEVENLABS_API_KEY not found. Please set it in your .env file.")
+client = ElevenLabs(api_key=api_key)
 
 audio_stream = client.text_to_speech.convert(
 
