@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "../App.css";
+import { supabase } from "../pages/supabaseClient.js"; // import your Supabase client
 
 export default function ForgotPassword({ onBack }) {
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email) {
@@ -12,7 +13,17 @@ export default function ForgotPassword({ onBack }) {
       return;
     }
 
-    alert("Password reset link sent (demo)");
+    // Supabase password reset
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + "/login", // redirect after password reset
+    });
+
+    if (error) {
+      alert("Error: " + error.message);
+    } else {
+      alert("Password reset link sent! Check your email.");
+      onBack(); // go back to login
+    }
   };
 
   return (

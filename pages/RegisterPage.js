@@ -1,20 +1,44 @@
 import React, { useState } from "react";
 import "../App.css";
+import { supabase } from "../pages/supabaseClient"; // make sure you have this file
 
 export default function Register({ onBack }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!username || !email || !password) {
-      alert("Fill all fields");
+      alert("Please fill all fields!");
       return;
     }
 
-    alert("Account created (demo)");
+    setLoading(true);
+
+    // Sign up with Supabase
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          username, // store username in user_metadata
+        },
+      },
+    });
+
+    setLoading(false);
+
+    if (error) {
+      alert("Error: " + error.message);
+    } else {
+      alert(
+        "Account created! A confirmation email has been sent to your email."
+      );
+      onBack(); // back to login page
+    }
   };
 
   return (
@@ -42,8 +66,8 @@ export default function Register({ onBack }) {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit" className="btn-3d">
-          Sign Up
+        <button type="submit" className="btn-3d" disabled={loading}>
+          {loading ? "Creating..." : "Sign Up"}
         </button>
 
         <button
@@ -58,4 +82,3 @@ export default function Register({ onBack }) {
     </div>
   );
 }
-

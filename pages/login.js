@@ -1,18 +1,32 @@
 import React, { useState } from "react";
-import "./login.css";
+import "../App.css";
+import { supabase } from "../pages/supabaseClient";
 
 export default function Login({ onLogin, onForgot, onRegister }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // demo credentials — replace later with real auth
-    if (username === "user" && password === "1234") {
-      onLogin();
+    if (!email || !password) {
+      alert("Please fill all fields!");
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert(error.message);
     } else {
-      alert("Invalid credentials! Try username: user, password: 1234");
+      if (!data.user.email_confirmed_at) {
+        alert("Please verify your email first!");
+      } else {
+        onLogin(data.user);
+      }
     }
   };
 
@@ -22,13 +36,12 @@ export default function Login({ onLogin, onForgot, onRegister }) {
         <h2>Login</h2>
 
         <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
-
         <input
           type="password"
           placeholder="Password"
@@ -37,26 +50,15 @@ export default function Login({ onLogin, onForgot, onRegister }) {
           required
         />
 
-        {/* Main login button */}
         <button type="submit" className="btn-3d">
           Login
         </button>
 
-        {/* Links section */}
         <div className="login-extra">
-          <button
-            type="button"
-            className="link-btn"
-            onClick={onForgot}
-          >
+          <button type="button" className="link-btn" onClick={onForgot}>
             Forgot Password?
           </button>
-
-          <button
-            type="button"
-            className="link-btn"
-            onClick={onRegister}
-          >
+          <button type="button" className="link-btn" onClick={onRegister}>
             Sign Up
           </button>
         </div>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./App.css";
 
-import Login from "./pages/login";
-import ForgotPassword from "./pages/ForgotPassword";
-import Register from "./pages/RegisterPage";
+import Login from "./pages/Login.js";
+import Register from "./pages/RegisterPage.js";
+import ForgotPassword from "./pages/ForgotPassword.js";
 
 /* ================= ONBOARDING ================= */
 
@@ -15,7 +15,7 @@ function Onboarding({ onComplete }) {
   const focusOptions = [
     "Move more",
     "Eco-friendly",
-    "Mental wellbeing",
+    "Mental wellbeing", 
     "Mix of everything",
   ];
 
@@ -24,15 +24,12 @@ function Onboarding({ onComplete }) {
       alert("Please fill all fields!");
       return;
     }
-
     onComplete({ name, neighborhood, focus });
   };
 
   return (
     <div className="card onboarding-card">
-      <h1 className="onboard-title">
-        🌟 Welcome to Golden Kingston 🌟
-      </h1>
+      <h1 className="onboard-title">🌟 Welcome to Golden Kingston 🌟</h1>
 
       <input
         className="input"
@@ -54,9 +51,7 @@ function Onboarding({ onComplete }) {
         {focusOptions.map((option) => (
           <button
             key={option}
-            className={`btn-3d ${
-              focus === option ? "selected" : ""
-            }`}
+            className={`btn-3d ${focus === option ? "selected" : ""}`}
             onClick={() => setFocus(option)}
           >
             {option}
@@ -83,7 +78,6 @@ function Actions({ logAction, points }) {
       <div className="content-area">
         <div className="card">
           <h2>Log Actions</h2>
-
           <p>Total Points: {points}</p>
 
           <div className="button-grid">
@@ -132,10 +126,10 @@ function CityDashboard() {
 /* ================= MAIN APP ================= */
 
 export default function App() {
-  const [screen, setScreen] = useState("onboarding");
-  const [authScreen, setAuthScreen] = useState("login");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [authScreen, setAuthScreen] = useState("login"); // login | register | forgot
 
+  const [screen, setScreen] = useState("onboarding"); // onboarding | actions | aura | city
   const [points, setPoints] = useState(0);
   const [breakdown, setBreakdown] = useState({
     walk: 0,
@@ -143,103 +137,56 @@ export default function App() {
     eco: 0,
   });
 
-  /* ===== ACTION LOGGER ===== */
-
+  /* ===== LOG ACTION ===== */
   const logAction = (p) => {
     setPoints((prev) => prev + p);
-
     setBreakdown((prev) => {
       const updated = { ...prev };
-
       if (p === 2) updated.walk += p;
       if (p === 3) updated.eco += p;
       if (p === 1) updated.wellbeing += p;
-
       return updated;
     });
   };
 
   /* ================= AUTH FLOW ================= */
-
   if (!loggedIn) {
-    if (authScreen === "forgot") {
+    if (authScreen === "login") {
       return (
-        <ForgotPassword
-          onBack={() => setAuthScreen("login")}
+        <Login
+          onLogin={() => setLoggedIn(true)}
+          onRegister={() => setAuthScreen("register")}
+          onForgot={() => setAuthScreen("forgot")}
         />
       );
     }
-
     if (authScreen === "register") {
-      return (
-        <Register
-          onBack={() => setAuthScreen("login")}
-        />
-      );
+      return <Register onBack={() => setAuthScreen("login")} />;
     }
-
-    return (
-      <Login
-        onLogin={() => setLoggedIn(true)}
-        onForgot={() => setAuthScreen("forgot")}
-        onRegister={() => setAuthScreen("register")}
-      />
-    );
+    if (authScreen === "forgot") {
+      return <ForgotPassword onBack={() => setAuthScreen("login")} />;
+    }
   }
 
-  /* ================= MAIN SCREENS ================= */
-
+  /* ================= APP SCREENS ================= */
   const screens = {
-    onboarding: (
-      <Onboarding
-        onComplete={() => setScreen("actions")}
-      />
-    ),
-
-    actions: (
-      <Actions
-        logAction={logAction}
-        points={points}
-      />
-    ),
-
-    aura: (
-      <GoldenAura
-        points={points}
-        breakdown={breakdown}
-      />
-    ),
-
+    onboarding: <Onboarding onComplete={() => setScreen("actions")} />,
+    actions: <Actions logAction={logAction} points={points} />,
+    aura: <GoldenAura points={points} breakdown={breakdown} />,
     city: <CityDashboard />,
   };
 
   return (
     <div className="app-container">
       <div className="navbar">
-        <button onClick={() => setScreen("onboarding")}>
-          Onboarding
-        </button>
-
-        <button onClick={() => setScreen("actions")}>
-          Actions
-        </button>
-
-        <button onClick={() => setScreen("aura")}>
-          Aura
-        </button>
-
-        <button onClick={() => setScreen("city")}>
-          City
-        </button>
-
-        <button onClick={() => setLoggedIn(false)}>
-          Logout
-        </button>
+        <button onClick={() => setScreen("onboarding")}>Onboarding</button>
+        <button onClick={() => setScreen("actions")}>Actions</button>
+        <button onClick={() => setScreen("aura")}>Aura</button>
+        <button onClick={() => setScreen("city")}>City</button>
+        <button onClick={() => setLoggedIn(false)}>Logout</button>
       </div>
 
-      <div className="content-area">
-        {screens[screen]}
-      </div>
+      <div className="content-area">{screens[screen]}</div>
     </div>
   );
 }
