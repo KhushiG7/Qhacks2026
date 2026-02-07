@@ -1,14 +1,16 @@
-export default function CityDashboard() {
+export default function GoldenAura() {
   return (
     <div className="card">
-      <h2>City Dashboard</h2>
+      <h2>Your Golden Aura</h2>
 
-      <p>Downtown — 40 pts</p>
-      <p>West End — 25 pts</p>
-      <p>University — 18 pts</p>
+      <p>Total: 42</p>
+      <p>Walking: 15</p>
+      <p>Wellbeing: 10</p>
+      <p>Eco: 17</p>
 
-      <h3>Neighborhood of the Month 🎉</h3>
-      <p>Downtown</p>
+      <button className="btn-3d">
+        Play Recap
+      </button>
     </div>
   );
 }
