@@ -48,7 +48,7 @@ function Onboarding({ onComplete }) {
       <p className="onboard-focus-text">I want to focus on:</p>
 
       <div className="button-grid focus-grid">
-        {focusOptions.map((option, idx) => (
+        {focusOptions.map((option) => (
           <button
             key={option}
             className={`btn-3d focus-btn ${focus === option ? "selected" : ""}`}
@@ -66,12 +66,8 @@ function Onboarding({ onComplete }) {
   );
 }
 
-/* ===== ACTIONS SCREEN WITH NETFLIX STYLE NAVBAR ===== */
-function Actions() {
-  const [points, setPoints] = useState(0);
-
-  const logAction = (p) => setPoints(points + p);
-
+/* ===== ACTIONS SCREEN ===== */
+function Actions({ logAction, points }) {
   return (
     <>
       <div className="navbar-merged">
@@ -127,12 +123,52 @@ function CityDashboard() {
   );
 }
 
+/* ===== LOGIN SCREEN ===== */
+function Login({ onLogin }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // simple demo login
+    if (username === "user" && password === "1234") {
+      onLogin();
+    } else {
+      alert("Invalid credentials! Try username: user, password: 1234");
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <form className="login-card" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit" className="start-btn">Login</button>
+      </form>
+    </div>
+  );
+}
+
 /* ===== MAIN APP ===== */
 export default function App() {
   const [screen, setScreen] = useState("onboarding");
   const [user, setUser] = useState(null);
   const [points, setPoints] = useState(0);
   const [breakdown, setBreakdown] = useState({ walk: 0, wellbeing: 0, eco: 0 });
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const logAction = (p) => {
     setPoints(points + p);
@@ -141,9 +177,13 @@ export default function App() {
     if (p === 1) setBreakdown({ ...breakdown, wellbeing: breakdown.wellbeing + p });
   };
 
+  if (!loggedIn) {
+    return <Login onLogin={() => setLoggedIn(true)} />;
+  }
+
   const screens = {
     onboarding: <Onboarding onComplete={(data) => { setUser(data); setScreen("actions"); }} />,
-    actions: <Actions />,
+    actions: <Actions logAction={logAction} points={points} />,
     aura: <GoldenAura points={points} breakdown={breakdown} />,
     city: <CityDashboard />,
   };
@@ -156,6 +196,7 @@ export default function App() {
         <button className="btn-3d" onClick={() => setScreen("actions")}>Actions</button>
         <button className="btn-3d" onClick={() => setScreen("aura")}>Aura</button>
         <button className="btn-3d" onClick={() => setScreen("city")}>City</button>
+        <button className="btn-3d" onClick={() => setLoggedIn(false)}>Logout</button>
       </div>
 
       {/* CONTENT */}
