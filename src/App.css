@@ -385,3 +385,61 @@ body {
   50% { transform: translateY(-8px); }
   100% { transform: translateY(0px); }
 }
+
+/* ===== LOGIN EXTRA LINKS ===== */
+.login-extra {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #005fa3;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.link-btn:hover {
+  color: #003f7c;
+}
+
+/* ===== Forgot Password Below Password, right-aligned ===== */
+.forgot-password-wrapper {
+  display: flex;
+  justify-content: flex-end; /* align right */
+  margin: 4px 0 12px 0; /* tight top spacing, small bottom spacing */
+}
+
+.forgot-btn {
+  background: none;
+  border: none;
+  color: #005fa3;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.forgot-btn:hover {
+  color: #003f7c;
+}
+
+/* ===== Sign Up Button ===== */
+.signup-btn {
+  margin-top: 12px; /* space below login button */
+  background: #ffd700; /* same yellow as login */
+  color: #003f7c;
+  font-weight: bold;
+  width: 100%; /* same width as login */
+  box-shadow: 0 6px 0 #cfa500;
+}
+
+.signup-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 0 #cfa500;
+  background: #ffe066;
+}
