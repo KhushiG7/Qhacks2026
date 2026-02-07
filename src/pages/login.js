@@ -1,26 +1,16 @@
 import React, { useState } from "react";
-import "./Login.css"; // optional: create this for login-specific styles
+import "./login.css";
 
-export default function Login(props) {
-  const [email, setEmail] = useState("");
+export default function Login({ onLogin }) {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Simulate login API call
-    // You can replace this with real API logic
-    const fakeUser = {
-      id: 1,
-      name: "John Doe",
-      email: email
-    };
-
-    if (email && password) {
-      // Notify Landing.js that login was successful
-      props.handleSuccessfulAuth({ user: fakeUser });
+    if (username === "user" && password === "1234") {
+      onLogin();
     } else {
-      alert("Please enter email and password.");
+      alert("Invalid credentials! Try username: user, password: 1234");
     }
   };
 
@@ -29,10 +19,10 @@ export default function Login(props) {
       <form className="login-card" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <input
@@ -42,11 +32,26 @@ export default function Login(props) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" className="btn-3d">
-          Login
-        </button>
+        <button type="submit" className="start-btn">Login</button>
+
+        {/* New additions */}
+        <div className="login-extra">
+          <button
+            type="button"
+            className="link-btn"
+            onClick={() => alert("Redirect to Forgot Password page")}
+          >
+            Forgot Password?
+          </button>
+          <button
+            type="button"
+            className="link-btn"
+            onClick={() => alert("Redirect to Sign Up page")}
+          >
+            Sign Up
+          </button>
+        </div>
       </form>
     </div>
   );
 }
-
