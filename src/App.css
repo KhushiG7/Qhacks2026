@@ -120,7 +120,7 @@ body {
 @keyframes floatCard {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
+  100% { transform: translateY(0); }
 }
 
 .onboard-title {
@@ -214,4 +214,105 @@ body {
   transform: translateY(-4px) scale(1.05);
   box-shadow: 0 10px 0 #cfa500;
   background: #ffe066;
+}
+
+
+/* ===== NETFLIX-STYLE ADDITIONS FOR ACTIONS.JS ===== */
+
+/* NAVBAR */
+.navbar-netflix {
+  height: 90px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #003f7c, #005fa3);
+  padding: 0 3%;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.navbar-netflix img {
+  width: 167px;
+  height: 45px;
+  vertical-align: middle;
+}
+
+.navbar-netflix .logo {
+  line-height: 90px;
+}
+
+.signin-btn {
+  color: white;
+  cursor: pointer;
+  background-color: #e50914;
+  line-height: normal;
+  padding: 7px 17px;
+  font-weight: 100;
+  border: transparent;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+.signin-btn:hover {
+  background-color: #E53935;
+}
+
+/* GOLDEN AURA CARD */
+.golden-aura-card {
+  background: radial-gradient(circle at center, #fff8dc, #ffd70055);
+  border-radius: 28px;
+  padding: 36px;
+  text-align: center;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  animation: auraPulse 3s ease-in-out infinite;
+}
+
+.aura-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  background: radial-gradient(circle, #fffacd, #ffd700);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 15px #ffd700aa;
+  animation: spinAura 6s linear infinite;
+}
+
+.aura-points {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #003f7c;
+}
+
+@keyframes auraPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spinAura {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ACTION BUTTONS FOR NETFLIX CARD */
+.action-btn-netflix {
+  flex: 1 1 calc(33% - 12px);
+  margin: 8px 0;
+  padding: 12px 18px;
+  border-radius: 16px;
+  font-weight: 600;
+  background: #ffffff;
+  box-shadow: 0 6px 0 #cfd8dc;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.action-btn-netflix:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 0 #cfd8dc;
+  background: #f0f8ff;
 }

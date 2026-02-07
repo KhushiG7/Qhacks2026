@@ -66,32 +66,45 @@ function Onboarding({ onComplete }) {
   );
 }
 
-function Actions({ points, logAction }) {
+/* ===== ACTIONS SCREEN WITH NETFLIX STYLE NAVBAR ===== */
+function Actions() {
+  const [points, setPoints] = useState(0);
+
+  const logAction = (p) => setPoints(points + p);
+
   return (
-    <div className="card">
-      <h2>Log Actions</h2>
-      <p>Total Points: {points}</p>
-      <button className="action-btn" onClick={() => logAction(2)}>
-        🚶 Walk / Run
-      </button>
-      <button className="action-btn" onClick={() => logAction(3)}>
-        🚲 Bike
-      </button>
-      <button className="action-btn" onClick={() => logAction(1)}>
-        ♻ Reduce Waste
-      </button>
-      <button className="action-btn" onClick={() => logAction(2)}>
-        🧘 Mindfulness
-      </button>
-    </div>
+    <>
+      <div className="navbar-merged">
+        <div className="logo">Golden Kingston</div>
+        <button className="profile-btn">Profile</button>
+      </div>
+
+      <div className="content-area">
+        <div className="card">
+          <h2>Log Actions</h2>
+          <p>Total Points: {points}</p>
+
+          <div className="button-grid">
+            <button className="action-button" onClick={() => logAction(2)}>🚶 Walk</button>
+            <button className="action-button" onClick={() => logAction(3)}>🚲 Bike</button>
+            <button className="action-button" onClick={() => logAction(1)}>🚌 Transit</button>
+            <button className="action-button" onClick={() => logAction(2)}>♻ Reduce Waste</button>
+            <button className="action-button" onClick={() => logAction(2)}>🧘 Mindfulness</button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
+/* ===== Golden Aura ===== */
 function GoldenAura({ points, breakdown }) {
   return (
-    <div className="card">
+    <div className="card golden-aura-card">
       <h2>Your Golden Aura</h2>
-      <p>Total: {points}</p>
+      <div className="aura-circle">
+        <span className="aura-points">{points}</span>
+      </div>
       <p>Walking: {breakdown.walk || 0}</p>
       <p>Wellbeing: {breakdown.wellbeing || 0}</p>
       <p>Eco: {breakdown.eco || 0}</p>
@@ -100,6 +113,7 @@ function GoldenAura({ points, breakdown }) {
   );
 }
 
+/* ===== City Dashboard ===== */
 function CityDashboard() {
   return (
     <div className="card">
@@ -113,8 +127,7 @@ function CityDashboard() {
   );
 }
 
-/* ===== Main App ===== */
-
+/* ===== MAIN APP ===== */
 export default function App() {
   const [screen, setScreen] = useState("onboarding");
   const [user, setUser] = useState(null);
@@ -130,28 +143,19 @@ export default function App() {
 
   const screens = {
     onboarding: <Onboarding onComplete={(data) => { setUser(data); setScreen("actions"); }} />,
-    actions: <Actions points={points} logAction={logAction} />,
+    actions: <Actions />,
     aura: <GoldenAura points={points} breakdown={breakdown} />,
     city: <CityDashboard />,
   };
 
   return (
     <div className="app-container">
-
       {/* NAV BAR */}
       <div className="navbar">
-        <button className="btn-3d" onClick={() => setScreen("onboarding")}>
-          Onboarding
-        </button>
-        <button className="btn-3d" onClick={() => setScreen("actions")}>
-          Actions
-        </button>
-        <button className="btn-3d" onClick={() => setScreen("aura")}>
-          Aura
-        </button>
-        <button className="btn-3d" onClick={() => setScreen("city")}>
-          City
-        </button>
+        <button className="btn-3d" onClick={() => setScreen("onboarding")}>Onboarding</button>
+        <button className="btn-3d" onClick={() => setScreen("actions")}>Actions</button>
+        <button className="btn-3d" onClick={() => setScreen("aura")}>Aura</button>
+        <button className="btn-3d" onClick={() => setScreen("city")}>City</button>
       </div>
 
       {/* CONTENT */}
@@ -160,7 +164,6 @@ export default function App() {
           {screens[screen]}
         </div>
       </div>
-
     </div>
   );
 }
