@@ -1,445 +1,232 @@
-/* ===== GLOBAL BACKGROUND ===== */
-body {
-  margin: 0;
-  font-family: Inter, sans-serif;
-  background: linear-gradient(135deg, #003f7c, #dee4e9, #6aa9d8);
-  min-height: 100vh;
+import React, { useState } from "react";
+import "./App.css";
+
+/* ===== Screens ===== */
+
+function Onboarding({ onComplete }) {
+  const [name, setName] = useState("");
+  const [neighborhood, setNeighborhood] = useState("");
+  const [focus, setFocus] = useState("");
+
+  const focusOptions = [
+    "Move more",
+    "Eco-friendly",
+    "Mental wellbeing",
+    "Mix of everything",
+  ];
+
+  const handleFocusSelect = (option) => setFocus(option);
+
+  const handleStart = () => {
+    if (!name || !neighborhood || !focus) {
+      alert("Please fill all fields and select your focus!");
+      return;
+    }
+    onComplete({ name, neighborhood, focus });
+  };
+
+  return (
+    <div className="card onboarding-card">
+      <h1 className="onboard-title">🌟 Welcome to Golden Kingston 🌟</h1>
+      <p className="onboard-subtitle">
+        Let's create healthier habits and make Kingston a greener, happier city!
+      </p>
+
+      <input
+        className="input"
+        placeholder="Preferred Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        className="input"
+        placeholder="Neighborhood"
+        value={neighborhood}
+        onChange={(e) => setNeighborhood(e.target.value)}
+      />
+
+      <p className="onboard-focus-text">I want to focus on:</p>
+
+      <div className="button-grid focus-grid">
+        {focusOptions.map((option) => (
+          <button
+            key={option}
+            className={`btn-3d focus-btn ${focus === option ? "selected" : ""}`}
+            onClick={() => handleFocusSelect(option)}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+
+      <button className="action-btn start-btn" onClick={handleStart}>
+        🚀 Start My Journey
+      </button>
+    </div>
+  );
 }
 
-/* ===== APP LAYOUT ===== */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* ===== ACTIONS SCREEN ===== */
+function Actions({ logAction, points }) {
+  return (
+    <>
+      <div className="navbar-merged">
+        <div className="logo">Golden Kingston</div>
+        <button className="profile-btn">Profile</button>
+      </div>
+
+      <div className="content-area">
+        <div className="card">
+          <h2>Log Actions</h2>
+          <p>Total Points: {points}</p>
+
+          <div className="button-grid">
+            <button className="action-button" onClick={() => logAction(2)}>🚶 Walk</button>
+            <button className="action-button" onClick={() => logAction(3)}>🚲 Bike</button>
+            <button className="action-button" onClick={() => logAction(1)}>🚌 Transit</button>
+            <button className="action-button" onClick={() => logAction(2)}>♻ Reduce Waste</button>
+            <button className="action-button" onClick={() => logAction(2)}>🧘 Mindfulness</button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
-/* ===== NAVBAR ===== */
-.navbar {
-  width: 100%;
-  padding: 18px 0;
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  background: linear-gradient(90deg, #003f7c, #005fa3);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+/* ===== Golden Aura ===== */
+function GoldenAura({ points, breakdown }) {
+  return (
+    <div className="card golden-aura-card">
+      <h2>Your Golden Aura</h2>
+      <div className="aura-circle">
+        <span className="aura-points">{points}</span>
+      </div>
+      <p>Walking: {breakdown.walk || 0}</p>
+      <p>Wellbeing: {breakdown.wellbeing || 0}</p>
+      <p>Eco: {breakdown.eco || 0}</p>
+      <button className="action-btn">▶ Play Golden Recap</button>
+    </div>
+  );
 }
 
-/* ===== 3D BUTTONS ===== */
-.btn-3d {
-  background: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 6px 0 #cfd8dc;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+/* ===== City Dashboard ===== */
+function CityDashboard() {
+  return (
+    <div className="card">
+      <h2>City Dashboard</h2>
+      <p>Downtown — 40 pts</p>
+      <p>West End — 25 pts</p>
+      <p>University — 18 pts</p>
+      <h3>Neighborhood of the Month 🎉</h3>
+      <p>Downtown</p>
+    </div>
+  );
 }
 
-.btn-3d:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 12px 0 #cfd8dc;
-  background: #f5f7fa;
+/* ===== LOGIN SCREEN ===== */
+function Login({ onLogin }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // simple demo login
+    if (username === "user" && password === "1234") {
+      onLogin();
+    } else {
+      alert("Invalid credentials! Try username: user, password: 1234");
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <form className="login-card" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        {/* Forgot Password - directly below password input */}
+        <div className="forgot-password-wrapper">
+          <button
+            type="button"
+            className="link-btn forgot-btn"
+            onClick={() => alert("Redirect to Forgot Password page")}
+          >
+            Forgot Password?
+          </button>
+        </div>
+
+        {/* Yellow Login Button */}
+        <button type="submit" className="start-btn">Login</button>
+
+        {/* Sign Up Button - same width/style as Login */}
+        <button
+          type="button"
+          className="start-btn signup-btn"
+          onClick={() => alert("Redirect to Sign Up page")}
+        >
+          Sign Up
+        </button>
+      </form>
+    </div>
+  );
 }
 
-.btn-3d:active {
-  transform: translateY(3px);
-  box-shadow: 0 3px 0 #cfd8dc;
-}
+/* ===== MAIN APP ===== */
+export default function App() {
+  const [screen, setScreen] = useState("onboarding");
+  const [user, setUser] = useState(null);
+  const [points, setPoints] = useState(0);
+  const [breakdown, setBreakdown] = useState({ walk: 0, wellbeing: 0, eco: 0 });
+  const [loggedIn, setLoggedIn] = useState(false);
 
-/* ===== CONTENT AREA ===== */
-.content-area {
-  margin-top: 60px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
+  const logAction = (p) => {
+    setPoints(points + p);
+    if (p === 2) setBreakdown({ ...breakdown, walk: breakdown.walk + p });
+    if (p === 3) setBreakdown({ ...breakdown, eco: breakdown.eco + p });
+    if (p === 1) setBreakdown({ ...breakdown, wellbeing: breakdown.wellbeing + p });
+  };
 
-/* ===== SCREEN TRANSITION ===== */
-.screen-wrapper {
-  animation: fadeSlide 0.4s ease;
-}
-
-@keyframes fadeSlide {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
+  if (!loggedIn) {
+    return <Login onLogin={() => setLoggedIn(true)} />;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-/* ===== FLOATING CARD ===== */
-.card {
-  background: rgba(255, 255, 255, 0.95);
-  width: 380px;
-  padding: 32px;
-  border-radius: 20px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.5);
-  text-align: center;
-  transition: transform 0.25s ease;
-}
+  const screens = {
+    onboarding: <Onboarding onComplete={(data) => { setUser(data); setScreen("actions"); }} />,
+    actions: <Actions logAction={logAction} points={points} />,
+    aura: <GoldenAura points={points} breakdown={breakdown} />,
+    city: <CityDashboard />,
+  };
 
-.card:hover {
-  transform: translateY(-4px);
-}
+  return (
+    <div className="app-container">
+      {/* NAV BAR */}
+      <div className="navbar">
+        <button className="btn-3d" onClick={() => setScreen("onboarding")}>Onboarding</button>
+        <button className="btn-3d" onClick={() => setScreen("actions")}>Actions</button>
+        <button className="btn-3d" onClick={() => setScreen("aura")}>Aura</button>
+        <button className="btn-3d" onClick={() => setScreen("city")}>City</button>
+        <button className="btn-3d" onClick={() => setLoggedIn(false)}>Logout</button>
+      </div>
 
-/* ===== ACTION BUTTONS INSIDE CARDS ===== */
-.action-btn {
-  width: 100%;
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  background: #003f7c;
-  color: white;
-  transition: transform 0.2s ease;
-}
-
-.action-btn:hover {
-  transform: scale(1.05);
-}
-
-/* ===== ONBOARDING CARD ===== */
-.onboarding-card {
-  background: linear-gradient(135deg, #f0f8ff, #d0e8ff, #a0cfff);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-  border-radius: 24px;
-  padding: 36px;
-  text-align: center;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  animation: floatCard 3s ease-in-out infinite;
-}
-
-@keyframes floatCard {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
-}
-
-.onboard-title {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #003f7c;
-  margin-bottom: 12px;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-}
-
-.onboard-subtitle {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #005fa3;
-  margin-bottom: 24px;
-}
-
-.input {
-  width: 80%;
-  margin: 10px 0;
-  padding: 12px;
-  border-radius: 14px;
-  border: 1px solid #cfd8dc;
-  font-size: 1rem;
-  outline: none;
-  transition: box-shadow 0.2s ease;
-}
-
-.input:focus {
-  box-shadow: 0 4px 12px rgba(0, 95, 163, 0.4);
-  border-color: #005fa3;
-}
-
-.onboard-focus-text {
-  font-weight: 600;
-  margin: 16px 0 8px;
-  color: #003f7c;
-}
-
-/* ===== Focus Buttons Grid ===== */
-.button-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
-
-.focus-btn {
-  flex: 1 1 calc(33% - 12px); /* 3 per row */
-  margin: 8px 0;
-  padding: 12px 18px;
-  border-radius: 16px;
-  font-weight: 600;
-  background: #ffffff;
-  box-shadow: 0 6px 0 #cfd8dc;
-  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-}
-
-.focus-btn:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 0 #cfd8dc;
-  background: #f0f8ff;
-}
-
-/* Make 4th button full width */
-.focus-btn:nth-child(4) {
-  flex: 1 1 100%;
-}
-
-.focus-btn.selected {
-  background: #005fa3;
-  color: white;
-  box-shadow: 0 6px 0 #003f7c;
-}
-
-/* ===== Start Button ===== */
-.start-btn {
-  margin-top: 20px;
-  width: 60%;
-  font-size: 1.1rem;
-  padding: 14px 20px;
-  border-radius: 18px;
-  background: #ffd700;
-  color: #003f7c;
-  font-weight: bold;
-  box-shadow: 0 6px 0 #cfa500;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.start-btn:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 0 #cfa500;
-  background: #ffe066;
-}
-
-
-/* ===== NETFLIX-STYLE ADDITIONS FOR ACTIONS.JS ===== */
-
-/* NAVBAR */
-.navbar-netflix {
-  height: 90px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(90deg, #003f7c, #005fa3);
-  padding: 0 3%;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-}
-
-.navbar-netflix img {
-  width: 167px;
-  height: 45px;
-  vertical-align: middle;
-}
-
-.navbar-netflix .logo {
-  line-height: 90px;
-}
-
-.signin-btn {
-  color: white;
-  cursor: pointer;
-  background-color: #e50914;
-  line-height: normal;
-  padding: 7px 17px;
-  font-weight: 100;
-  border: transparent;
-  border-radius: 3px;
-  font-size: 16px;
-}
-
-.signin-btn:hover {
-  background-color: #E53935;
-}
-
-/* GOLDEN AURA CARD */
-.golden-aura-card {
-  background: radial-gradient(circle at center, #fff8dc, #ffd70055);
-  border-radius: 28px;
-  padding: 36px;
-  text-align: center;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  animation: auraPulse 3s ease-in-out infinite;
-}
-
-.aura-circle {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin: 0 auto 16px;
-  background: radial-gradient(circle, #fffacd, #ffd700);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 0 15px #ffd700aa;
-  animation: spinAura 6s linear infinite;
-}
-
-.aura-points {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #003f7c;
-}
-
-@keyframes auraPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-@keyframes spinAura {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* ACTION BUTTONS FOR NETFLIX CARD */
-.action-btn-netflix {
-  flex: 1 1 calc(33% - 12px);
-  margin: 8px 0;
-  padding: 12px 18px;
-  border-radius: 16px;
-  font-weight: 600;
-  background: #ffffff;
-  box-shadow: 0 6px 0 #cfd8dc;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-}
-
-.action-btn-netflix:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 0 #cfd8dc;
-  background: #f0f8ff;
-}
-
-/* ===== LOGIN PAGE ===== */
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  background: linear-gradient(135deg, #003f7c, #dee4e9, #6aa9d8);
-  padding: 20px;
-}
-
-.login-card {
-  background: rgba(255, 255, 255, 0.95);
-  width: 380px;
-  padding: 32px;
-  border-radius: 20px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.5);
-  text-align: center;
-  animation: floatCard 3s ease-in-out infinite;
-}
-
-.login-card h2 {
-  color: #003f7c;
-  font-size: 1.8rem;
-  margin-bottom: 24px;
-}
-
-.login-card input {
-  width: 80%;
-  margin: 12px 0;
-  padding: 12px;
-  border-radius: 14px;
-  border: 1px solid #cfd8dc;
-  font-size: 1rem;
-  outline: none;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.login-card input:focus {
-  box-shadow: 0 4px 12px rgba(0, 95, 163, 0.4);
-  border-color: #005fa3;
-}
-
-.login-card .start-btn {
-  margin-top: 16px;
-  width: 60%;
-  font-size: 1.1rem;
-  padding: 14px 20px;
-  border-radius: 18px;
-  background: #ffd700;
-  color: #003f7c;
-  font-weight: bold;
-  box-shadow: 0 6px 0 #cfa500;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.login-card .start-btn:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 0 #cfa500;
-  background: #ffe066;
-}
-
-/* Optional small animation to float card */
-@keyframes floatCard {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
-}
-
-/* ===== LOGIN EXTRA LINKS ===== */
-.login-extra {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-}
-
-.link-btn {
-  background: none;
-  border: none;
-  color: #005fa3;
-  cursor: pointer;
-  font-size: 0.9rem;
-  text-decoration: underline;
-  padding: 0;
-}
-
-.link-btn:hover {
-  color: #003f7c;
-}
-
-/* ===== Forgot Password Below Password, right-aligned ===== */
-.forgot-password-wrapper {
-  display: flex;
-  justify-content: flex-end; /* align right */
-  margin: 4px 0 12px 0; /* tight top spacing, small bottom spacing */
-}
-
-.forgot-btn {
-  background: none;
-  border: none;
-  color: #005fa3;
-  cursor: pointer;
-  font-size: 0.9rem;
-  text-decoration: underline;
-  padding: 0;
-}
-
-.forgot-btn:hover {
-  color: #003f7c;
-}
-
-/* ===== Sign Up Button ===== */
-.signup-btn {
-  margin-top: 12px; /* space below login button */
-  background: #ffd700; /* same yellow as login */
-  color: #003f7c;
-  font-weight: bold;
-  width: 100%; /* same width as login */
-  box-shadow: 0 6px 0 #cfa500;
-}
-
-.signup-btn:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 0 #cfa500;
-  background: #ffe066;
+      {/* CONTENT */}
+      <div className="content-area">
+        <div key={screen} className="screen-wrapper">
+          {screens[screen]}
+        </div>
+      </div>
+    </div>
+  );
 }
