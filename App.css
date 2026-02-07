@@ -385,3 +385,201 @@ body {
   50% { transform: translateY(-8px); }
   100% { transform: translateY(0px); }
 }
+
+/* ===== LOGIN EXTRA LINKS ===== */
+.login-extra {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #005fa3;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.link-btn:hover {
+  color: #003f7c;
+}
+
+/* ===== Forgot Password Below Password, right-aligned ===== */
+.forgot-password-wrapper {
+  display: flex;
+  justify-content: flex-end; /* align right */
+  margin: 4px 0 12px 0; /* tight top spacing, small bottom spacing */
+}
+
+.forgot-btn {
+  background: none;
+  border: none;
+  color: #005fa3;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  padding: 0;
+}/* ===============================
+   GLOBAL MOBILE SCALING
+=============================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* ===============================
+   NAVBAR MOBILE
+=============================== */
+
+@media (max-width: 768px) {
+
+  .navbar {
+    flex-wrap: wrap;
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .btn-3d {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+}
+
+/* ===============================
+   CARD + CONTENT MOBILE
+=============================== */
+
+@media (max-width: 768px) {
+
+  .card,
+  .onboarding-card,
+  .golden-aura-card {
+    width: 92%;
+    padding: 20px;
+  }
+
+  .content-area {
+    margin-top: 20px;
+  }
+
+}
+
+/* ===============================
+   BUTTON GRID MOBILE
+=============================== */
+
+@media (max-width: 768px) {
+
+  .button-grid {
+    flex-direction: column;
+  }
+
+  .button-grid button {
+    width: 100%;
+  }
+
+}
+
+/* ===============================
+   LOGIN MOBILE
+=============================== */
+
+@media (max-width: 480px) {
+
+  .login-card {
+    width: 92%;
+    padding: 22px;
+  }
+
+  .login-card input {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .login-card .btn-3d {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .login-extra {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+}
+
+/* ===============================
+   TEXT SCALING
+=============================== */
+
+@media (max-width: 480px) {
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+}
+
+/* ===============================
+   TOUCH FRIENDLY BUTTONS
+=============================== */
+
+button {
+  min-height: 44px;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+
+  .card,
+  .login-card {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .btn-3d {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  .button-grid {
+    flex-direction: column;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+
+  .login-extra {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .onboard-title {
+    font-size: 1.4rem;
+  }
+}

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
 
-/* ===== Screens ===== */
+import Login from "./pages/login";
+import ForgotPassword from "./pages/ForgotPassword";
+import Register from "./pages/RegisterPage";
+
+/* ================= ONBOARDING ================= */
 
 function Onboarding({ onComplete }) {
   const [name, setName] = useState("");
@@ -15,22 +19,20 @@ function Onboarding({ onComplete }) {
     "Mix of everything",
   ];
 
-  const handleFocusSelect = (option) => setFocus(option);
-
   const handleStart = () => {
     if (!name || !neighborhood || !focus) {
-      alert("Please fill all fields and select your focus!");
+      alert("Please fill all fields!");
       return;
     }
+
     onComplete({ name, neighborhood, focus });
   };
 
   return (
     <div className="card onboarding-card">
-      <h1 className="onboard-title">🌟 Welcome to Golden Kingston 🌟</h1>
-      <p className="onboard-subtitle">
-        Let's create healthier habits and make Kingston a greener, happier city!
-      </p>
+      <h1 className="onboard-title">
+        🌟 Welcome to Golden Kingston 🌟
+      </h1>
 
       <input
         className="input"
@@ -38,6 +40,7 @@ function Onboarding({ onComplete }) {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
+
       <input
         className="input"
         placeholder="Neighborhood"
@@ -45,47 +48,50 @@ function Onboarding({ onComplete }) {
         onChange={(e) => setNeighborhood(e.target.value)}
       />
 
-      <p className="onboard-focus-text">I want to focus on:</p>
+      <p>I want to focus on:</p>
 
-      <div className="button-grid focus-grid">
+      <div className="button-grid">
         {focusOptions.map((option) => (
           <button
             key={option}
-            className={`btn-3d focus-btn ${focus === option ? "selected" : ""}`}
-            onClick={() => handleFocusSelect(option)}
+            className={`btn-3d ${
+              focus === option ? "selected" : ""
+            }`}
+            onClick={() => setFocus(option)}
           >
             {option}
           </button>
         ))}
       </div>
 
-      <button className="action-btn start-btn" onClick={handleStart}>
+      <button className="action-btn" onClick={handleStart}>
         🚀 Start My Journey
       </button>
     </div>
   );
 }
 
-/* ===== ACTIONS SCREEN ===== */
+/* ================= ACTIONS ================= */
+
 function Actions({ logAction, points }) {
   return (
     <>
       <div className="navbar-merged">
         <div className="logo">Golden Kingston</div>
-        <button className="profile-btn">Profile</button>
       </div>
 
       <div className="content-area">
         <div className="card">
           <h2>Log Actions</h2>
+
           <p>Total Points: {points}</p>
 
           <div className="button-grid">
-            <button className="action-button" onClick={() => logAction(2)}>🚶 Walk</button>
-            <button className="action-button" onClick={() => logAction(3)}>🚲 Bike</button>
-            <button className="action-button" onClick={() => logAction(1)}>🚌 Transit</button>
-            <button className="action-button" onClick={() => logAction(2)}>♻ Reduce Waste</button>
-            <button className="action-button" onClick={() => logAction(2)}>🧘 Mindfulness</button>
+            <button onClick={() => logAction(2)}>🚶 Walk</button>
+            <button onClick={() => logAction(3)}>🚲 Bike</button>
+            <button onClick={() => logAction(1)}>🚌 Transit</button>
+            <button onClick={() => logAction(2)}>♻ Reduce Waste</button>
+            <button onClick={() => logAction(2)}>🧘 Mindfulness</button>
           </div>
         </div>
       </div>
@@ -93,117 +99,146 @@ function Actions({ logAction, points }) {
   );
 }
 
-/* ===== Golden Aura ===== */
+/* ================= AURA ================= */
+
 function GoldenAura({ points, breakdown }) {
   return (
-    <div className="card golden-aura-card">
+    <div className="card">
       <h2>Your Golden Aura</h2>
-      <div className="aura-circle">
-        <span className="aura-points">{points}</span>
-      </div>
+
+      <div className="aura-circle">{points}</div>
+
       <p>Walking: {breakdown.walk || 0}</p>
       <p>Wellbeing: {breakdown.wellbeing || 0}</p>
       <p>Eco: {breakdown.eco || 0}</p>
-      <button className="action-btn">▶ Play Golden Recap</button>
     </div>
   );
 }
 
-/* ===== City Dashboard ===== */
+/* ================= CITY ================= */
+
 function CityDashboard() {
   return (
     <div className="card">
       <h2>City Dashboard</h2>
+
       <p>Downtown — 40 pts</p>
       <p>West End — 25 pts</p>
       <p>University — 18 pts</p>
-      <h3>Neighborhood of the Month 🎉</h3>
-      <p>Downtown</p>
     </div>
   );
 }
 
-/* ===== LOGIN SCREEN ===== */
-function Login({ onLogin }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+/* ================= MAIN APP ================= */
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // simple demo login
-    if (username === "user" && password === "1234") {
-      onLogin();
-    } else {
-      alert("Invalid credentials! Try username: user, password: 1234");
-    }
-  };
-
-  return (
-    <div className="login-container">
-      <form className="login-card" onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="start-btn">Login</button>
-      </form>
-    </div>
-  );
-}
-
-/* ===== MAIN APP ===== */
 export default function App() {
   const [screen, setScreen] = useState("onboarding");
-  const [user, setUser] = useState(null);
-  const [points, setPoints] = useState(0);
-  const [breakdown, setBreakdown] = useState({ walk: 0, wellbeing: 0, eco: 0 });
+  const [authScreen, setAuthScreen] = useState("login");
   const [loggedIn, setLoggedIn] = useState(false);
 
+  const [points, setPoints] = useState(0);
+  const [breakdown, setBreakdown] = useState({
+    walk: 0,
+    wellbeing: 0,
+    eco: 0,
+  });
+
+  /* ===== ACTION LOGGER ===== */
+
   const logAction = (p) => {
-    setPoints(points + p);
-    if (p === 2) setBreakdown({ ...breakdown, walk: breakdown.walk + p });
-    if (p === 3) setBreakdown({ ...breakdown, eco: breakdown.eco + p });
-    if (p === 1) setBreakdown({ ...breakdown, wellbeing: breakdown.wellbeing + p });
+    setPoints((prev) => prev + p);
+
+    setBreakdown((prev) => {
+      const updated = { ...prev };
+
+      if (p === 2) updated.walk += p;
+      if (p === 3) updated.eco += p;
+      if (p === 1) updated.wellbeing += p;
+
+      return updated;
+    });
   };
 
+  /* ================= AUTH FLOW ================= */
+
   if (!loggedIn) {
-    return <Login onLogin={() => setLoggedIn(true)} />;
+    if (authScreen === "forgot") {
+      return (
+        <ForgotPassword
+          onBack={() => setAuthScreen("login")}
+        />
+      );
+    }
+
+    if (authScreen === "register") {
+      return (
+        <Register
+          onBack={() => setAuthScreen("login")}
+        />
+      );
+    }
+
+    return (
+      <Login
+        onLogin={() => setLoggedIn(true)}
+        onForgot={() => setAuthScreen("forgot")}
+        onRegister={() => setAuthScreen("register")}
+      />
+    );
   }
 
+  /* ================= MAIN SCREENS ================= */
+
   const screens = {
-    onboarding: <Onboarding onComplete={(data) => { setUser(data); setScreen("actions"); }} />,
-    actions: <Actions logAction={logAction} points={points} />,
-    aura: <GoldenAura points={points} breakdown={breakdown} />,
+    onboarding: (
+      <Onboarding
+        onComplete={() => setScreen("actions")}
+      />
+    ),
+
+    actions: (
+      <Actions
+        logAction={logAction}
+        points={points}
+      />
+    ),
+
+    aura: (
+      <GoldenAura
+        points={points}
+        breakdown={breakdown}
+      />
+    ),
+
     city: <CityDashboard />,
   };
 
   return (
     <div className="app-container">
-      {/* NAV BAR */}
       <div className="navbar">
-        <button className="btn-3d" onClick={() => setScreen("onboarding")}>Onboarding</button>
-        <button className="btn-3d" onClick={() => setScreen("actions")}>Actions</button>
-        <button className="btn-3d" onClick={() => setScreen("aura")}>Aura</button>
-        <button className="btn-3d" onClick={() => setScreen("city")}>City</button>
-        <button className="btn-3d" onClick={() => setLoggedIn(false)}>Logout</button>
+        <button onClick={() => setScreen("onboarding")}>
+          Onboarding
+        </button>
+
+        <button onClick={() => setScreen("actions")}>
+          Actions
+        </button>
+
+        <button onClick={() => setScreen("aura")}>
+          Aura
+        </button>
+
+        <button onClick={() => setScreen("city")}>
+          City
+        </button>
+
+        <button onClick={() => setLoggedIn(false)}>
+          Logout
+        </button>
       </div>
 
-      {/* CONTENT */}
       <div className="content-area">
-        <div key={screen} className="screen-wrapper">
-          {screens[screen]}
-        </div>
+        {screens[screen]}
       </div>
     </div>
   );
